@@ -1,0 +1,24 @@
+{
+    "name": "thirdsteplabs/apibase",
+    "description": "Adds default RESTful API functionality to Laravel",
+    "keywords": ["laravel"],
+    "authors": [
+        {
+            "name": "Beau Lynn-Miller",
+            "email": "beaulm@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Thirdsteplabs\\Apibase\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
