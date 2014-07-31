@@ -1,4 +1,4 @@
-<?php namespace Thirdsteplabs\Apibase\Controllers;
+<?php namespace Thirdsteplabs\Apibase;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;

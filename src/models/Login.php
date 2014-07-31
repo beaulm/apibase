@@ -1,6 +1,7 @@
 <?php namespace Thirdsteplabs\Apibase;
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Login extends Eloquent {
