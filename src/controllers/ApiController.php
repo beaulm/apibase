@@ -1,4 +1,4 @@
-<?php namespace Thirdsteplabs\Apibase;
+<?php namespace Thirdsteplabs\Apibase\Controllers;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\File\File as SFile;
 use Illuminate\Support\Facades\Validator as LValidator;
+use Illuminate\Routing\Controllers\Controller;
 
-class ApiController extends BaseController {
+class ApiController extends \BaseController {
 
 	//Handle Login attempts
 	public function login()

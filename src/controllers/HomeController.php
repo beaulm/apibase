@@ -1,4 +1,4 @@
-<?php namespace Thirdsteplabs\Apibase;
+<?php namespace Thirdsteplabs\Apibase\Controllers;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\File\File as SFile;
 use Illuminate\Support\Facades\Validator as LValidator;
+use Illuminate\Routing\Controllers\Controller;
 
-class HomeController extends BaseController {
+class HomeController extends \BaseController {
 
 	/*
 	|--------------------------------------------------------------------------
@@ -30,12 +32,12 @@ class HomeController extends BaseController {
 
 	public function home()
 	{
-		return View::make('hello');
+		return View::make('apibase::hello');
 	}
 
 	public function loginform()
 	{
-		return View::make('login');
+		return View::make('apibase::login');
 	}
 
 	public function login()
@@ -68,12 +70,12 @@ class HomeController extends BaseController {
 
 	public function forgotpasswordform()
 	{
-		return View::make('auth.forgot');
+		return View::make('apibase::auth.forgot');
 	}
 
 	public function remindpasswordform()
 	{
-		return View::make('auth.remind');
+		return View::make('apibase::auth.remind');
 	}
 
 	public function remindpassword()
@@ -87,7 +89,7 @@ class HomeController extends BaseController {
 
 	public function resetpasswordform($token)
 	{
-		return View::make('auth.reset')->with('token', $token);
+		return View::make('apibase::auth.reset')->with('token', $token);
 	}
 
 	public function resetpassword()
