@@ -15,6 +15,7 @@
     "autoload": {
         "classmap": [
             "src/controllers",
+            "src/lang",
             "src/migrations",
             "src/models"
         ],
