@@ -77,7 +77,7 @@ Route::filter('apiauth', function()
 
 Route::filter('makeSureModelExists', function($route)
 {
-	if(!class_exists($route->getParameter('modelName')))
+	if(!class_exists(ucfirst($route->getParameter('modelName'))))
 	{
 		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.invalid_request')), 401);
 	}
