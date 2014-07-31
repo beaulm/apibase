@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('apibase::layouts.master')
 
 @section('content')
 	@if (Session::has('error'))

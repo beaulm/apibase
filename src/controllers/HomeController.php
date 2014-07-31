@@ -5,28 +5,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Routing\Controllers\Controller;
 
 class HomeController extends \BaseController {
-
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
-
-	public function home()
-	{
-		return View::make('apibase::hello');
-	}
-
 	public function loginform()
 	{
 		return View::make('apibase::login');
@@ -86,14 +69,25 @@ class HomeController extends \BaseController {
 
 	public function resetpassword()
 	{
-		$credentials = array('email' => Input::get('email'));
+		$credentials = Input::only(
+			'email', 'password', 'password_confirmation', 'token'
+		);
 
-		return Password::reset($credentials, function($user, $password)
+		$response = Password::reset($credentials, function($user, $password)
 		{
 			$user->password = $password;
 			$user->save();
-			return Redirect::to('/');
 		});
-	}
 
+		switch ($response)
+		{
+			case Password::INVALID_PASSWORD:
+			case Password::INVALID_TOKEN:
+			case Password::INVALID_USER:
+			  return Redirect::back()->with('error', Lang::get($response));
+
+			case Password::PASSWORD_RESET:
+			  return Redirect::to('/');
+		}
+	}
 }

@@ -1,8 +1,8 @@
-@extends('layouts.master')
+@extends('apibase::layouts.master')
 
 @section('content')
 	@if (Session::has('error'))
-		{{ trans(Session::get('reason')) }}
+		{{ trans(Session::get('error')) }}
 	@endif
 	{{ Form::open(array('id'=>'login', 'route'=>array('reset', $token))) }}
 	<table>
