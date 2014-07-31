@@ -84,7 +84,7 @@ Ex Return: `{"message":"Logout successful"}`
 
 Error:
 -------
-Calling making a call without a token will result in an error:
+Making a call without a token will result in an error:
 
 Example: `/api/v1/user`  
 Ex Return: `{"code":401,"message":"You do not have access to view this web page"}`
