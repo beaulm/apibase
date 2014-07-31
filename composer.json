@@ -1,6 +1,6 @@
 {
     "name": "thirdsteplabs/apibase",
-    "description": "Adds default RESTful API functionality to Laravel",
+    "description": "Adds CRUD functionality through a RESTful API for Laravel",
     "keywords": ["laravel"],
     "authors": [
         {

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Validator as LValidator;
 use Illuminate\Routing\Controllers\Controller;
 
 class HomeController extends \BaseController {
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Default Home Controller

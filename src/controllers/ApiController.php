@@ -17,8 +17,11 @@ use Illuminate\Support\Facades\Validator as LValidator;
 use Illuminate\Routing\Controllers\Controller;
 
 class ApiController extends \BaseController {
-
-	//Handle Login attempts
+	/**
+	 * Handle Login attempts
+	 *
+	 * @return JSON array
+	 */
 	public function login()
 	{
 		//Get the inputted username and password
@@ -31,9 +34,8 @@ class ApiController extends \BaseController {
 		if(Auth::attempt($user)) 
 		{
 			//If so, create and return a token
-			$user = User::where('email', '=', Input::get('email'))->first();
 			$login = new Login;
-			$login->user_id = $user->id;
+			$login->user_id = Auth::user()->id;
 			$login->setIp();
 			$login->createToken();
 			$login->save();
@@ -46,13 +48,19 @@ class ApiController extends \BaseController {
 		}
 	}
 
-	//Handle logout requests
+
+	/**
+	 * Handle logout requests
+	 *
+	 * @return JSON array
+	 */
 	public function anyLogout()
 	{
 		//Invalidate the passed token
 		$user = Login::where('token', Input::get('token'))->delete();
 		return Response::json(array('message' => Lang::get('apibase::thirdstep.response_message.logout_succeeded')));
 	}
+
 
 	/**
 	 * Gets all records
@@ -138,5 +146,4 @@ class ApiController extends \BaseController {
 		$result->delete();
 		return Redirect::to('getAll');
 	}
-
 }
