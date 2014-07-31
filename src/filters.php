@@ -71,7 +71,7 @@ Route::filter('apiauth', function()
     }
     else
     {
-		return Response::json(array('code' => 401, 'message' => Lang::get('thirdstep.response_message.access_denied')), 401);
+		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
     }
 });
 
@@ -79,7 +79,7 @@ Route::filter('makeSureModelExists', function($route)
 {
 	if(!class_exists($route->getParameter('modelName')))
 	{
-		return Response::json(array('code' => 401, 'message' => Lang::get('thirdstep.response_message.invalid_request')), 401);
+		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.invalid_request')), 401);
 	}
 });
 

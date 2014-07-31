@@ -41,7 +41,7 @@ class ApiController extends \BaseController {
 		else
 		{
 			//If not, return an error
-			return Response::json(array('code' => 401, 'message' => Lang::get('thirdstep.response_message.login_failed')), 401); 
+			return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.login_failed')), 401); 
 		}
 	}
 
@@ -50,7 +50,7 @@ class ApiController extends \BaseController {
 	{
 		//Invalidate the passed token
 		$user = Login::where('token', Input::get('token'))->delete();
-		return Response::json(array('message' => Lang::get('thirdstep.response_message.logout_succeeded')));
+		return Response::json(array('message' => Lang::get('apibase::thirdstep.response_message.logout_succeeded')));
 	}
 
 	/**
@@ -80,7 +80,7 @@ class ApiController extends \BaseController {
 		$result = $modelName::find($id);
 		if(empty($result))
 		{
-			return Response::json(array('code' => 401, 'message' => Lang::get('thirdstep.response_message.item_not_found')), 401); 
+			return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.item_not_found')), 401); 
 		}
 		return Response::json($result->toArray()); 
 	}
@@ -111,7 +111,7 @@ class ApiController extends \BaseController {
 		$result = $modelName::find($id);
 		if(empty($result))
 		{
-			return Response::json(array('code' => 401, 'message' => Lang::get('thirdstep.response_message.item_not_found')), 401); 
+			return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.item_not_found')), 401); 
 		}
 		$result->update(Input::all());
 		$result->save();
@@ -132,7 +132,7 @@ class ApiController extends \BaseController {
 		$result = $modelName::find($id);
 		if(empty($result))
 		{
-			return Response::json(array('code' => 401, 'message' => Lang::get('thirdstep.response_message.item_not_found')), 401); 
+			return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.item_not_found')), 401); 
 		}
 		$result->delete();
 		return Redirect::to('getAll');
