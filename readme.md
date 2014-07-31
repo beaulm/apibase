@@ -2,7 +2,9 @@ RESTful CRUD API
 ================
 
 All calls to the API will start with `/api/v1/`
+
 All responses will be in JSON
+
 If any response other than 200 is given, the JSON will be an array with a `code` and `message` element
 
 Login:
@@ -11,9 +13,11 @@ Login:
 - Method: `ANY`
 - Params: `email`, `password`
 - Response: `token`
+
 _*All subsequent requests will require that token._
 
 Example: `/api/v1/login?email=fake@fake.com&password=fake`
+
 Ex Return: `{"token":"12d3ff"}`
 
 
@@ -25,6 +29,7 @@ Get All:
 - Response: array of object data
 
 Example: `/api/v1/user?token=12d3ff`
+
 Ex Return: `[{"id":1,"name":"Fakey McFakerson","email":"fake@fake.com"},{"id":2,"name":"Foo McBarenson","email":"foo@bar.com"}]`
 
 
@@ -36,6 +41,7 @@ Get Specific:
 - Response: object data
 
 Example: `/api/v1/user/2?token=12d3ff`
+
 Ex Return: `{"id":2,"name":"Foo McBarenson","email":"foo@bar.com"}`
 
 
@@ -47,6 +53,7 @@ Create Object:
 - Response: object data
 
 Example: `/api/v1/user?name=Testey&password=test&email=test@test.com&phone=5551234123&token=12d3ff`
+
 Ex Return: `{"id":3,"name":"Testey","email":"test@test.com","phone":"5551234123"}`
 
 
@@ -58,6 +65,7 @@ Update Object:
 - Response: object data
 
 Example: `/api/v1/user/2?phone=5557777777&token=12d3ff`
+
 Ex Return: `{"id":2,"name":"Foo McBarenson","email":"foo@bar.com","phone":"5557777777"}`
 
 
@@ -69,6 +77,7 @@ Delete Object:
 - Response: array of remaining objects
 
 Example: `/api/v1/user/1`
+
 Ex Return: `[{"id":2,"name":"Foo McBarenson","email":"foo@bar.com","phone":"5557777777"},{"id":3,"name":"Testey","email":"test@test.com","phone":"5551234123"}]`
 
 
@@ -80,4 +89,14 @@ Logout:
 - Response: JSON with message
 
 Example: `/api/v1/logout?token=12d3ff`
+
 Ex Return: `{"message":"Logout successful"}`
+
+
+Error:
+-------
+Calling making a call without a token will result in an error:
+
+Example: `/api/v1/user`
+
+Ex Return: `{"code":401,"message":"You do not have access to view this web page"}`
