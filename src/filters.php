@@ -99,6 +99,7 @@ Route::filter('apiauth', function()
     if(isset($login) and is_object($login))
     {
     	$login->touch();
+    	Session::put('user_id', $login->user_id);
     }
     else
     {
