@@ -18,7 +18,7 @@ class HomeController extends \BaseController {
 	public function login()
 	{
 		$user = array(
-			'email' => Input::get('email'),
+			'email' => Input::get('username'),
 			'password' => Input::get('password')
 		);
 

@@ -17,7 +17,7 @@ class ApiController extends \BaseController {
 	{
 		//Get the inputted username and password
 		$user = array(
-			'email' => Input::get('email'),
+			'email' => Input::get('username'),
 			'password' => Input::get('password')
 		);
 

@@ -31,9 +31,10 @@ App::before(function($request)
 
 	Route::post('password/reset/{token}', array('uses' => 'HomeController@resetpassword', 'as' => 'reset'));
 
-	Route::any('api/v1/login', array('as' => 'apilogin', 'uses' => 'ApiController@login'));
 	Route::group(array('before' => 'apiauth'), function()
 	{
+		Route::any('api/v1/login', array('as' => 'apilogin', 'uses' => 'ApiController@login'));
+	    
 	    //Route::controller('api/v1', 'ApiController');
 		Route::any('api/v1/logout', array('uses' => 'ApiController@anyLogout', 'as' => 'anyLogout'));
 		Route::group(array('before' => 'makeSureModelExists'), function()
@@ -100,10 +101,18 @@ Route::filter('apiauth', function()
     {
     	$login->touch();
     	Session::put('user_id', $login->user_id);
+
+    	if(Request::path() == 'api/v1/login')
+		{
+			return Response::json(array('token' => Input::get('token')));
+		}
     }
     else
     {
-		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
+    	if(Request::path() != 'api/v1/login')
+		{
+			return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
+		}
     }
 });
 
