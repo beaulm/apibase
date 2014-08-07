@@ -8,11 +8,11 @@ Login:
 ------
 - URL: `/api/v1/login`
 - Method: `ANY`
-- Params: `email`, `password`
+- Params: `username`, `password` OR `token`
 - Response: `token`  
 _*All subsequent requests will require that token._  
 
-Example: `/api/v1/login?email=fake@fake.com&password=fake`  
+Example: `/api/v1/login?username=fake@fake.com&password=fake`  
 Ex Return: `{"token":"12d3ff"}`
 
 
