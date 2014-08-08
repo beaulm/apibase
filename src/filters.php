@@ -98,6 +98,8 @@ Route::filter('apiauth', function()
 	    {
     		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
 	    }
+		$login->touch();
+    	Session::put('user_id', $login->user_id);
     }
     else
     {

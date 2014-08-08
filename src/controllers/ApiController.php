@@ -23,6 +23,7 @@ class ApiController extends \BaseController {
 		    if(isset($login) and is_object($login))
 		    {
 		    	$login->touch();
+    			Session::put('user_id', $login->user_id);
 				return Response::json(array('token' => Input::get('token')));
 		    }
 			else
