@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Login extends Eloquent {
@@ -49,6 +50,27 @@ class Login extends Eloquent {
 		{
 			return $this->token;
 		}
+	}
+
+
+	/**
+	 * Check if token is valid
+	 *
+	 * @return string
+	 */
+	public static function checkToken($token, $ipAddress)
+	{
+		$login = Login::where('token', $token)->where('ip_address', $ipAddress)->first();
+	    if(isset($login) and is_object($login))
+	    {
+	    	$login->touch();
+	    	Session::put('user_id', $login->user_id);
+	    	return true;
+	    }
+	    else
+	    {
+	    	return false;
+	    }
 	}
 
 

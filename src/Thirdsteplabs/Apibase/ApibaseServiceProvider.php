@@ -31,7 +31,16 @@ class ApibaseServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app->bind('login', function()
+        {
+            return new Login;
+        });
+
+        $this->app->booting(function()
+        {
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader->alias('Login', 'Thirdsteplabs\Apibase\Facades\Login');
+        });
 	}
 
 	/**

@@ -91,19 +91,9 @@ Route::filter('basic.once', function()
 
 Route::filter('apiauth', function()
 {
-    if(Input::has('token'))
+	if(!Input::has('token') or !Login::checkToken(Input::get('token'), Request::getClientIp()))
     {
-    	$login = Login::where('token', Input::get('token'))->where('ip_address', Request::getClientIp())->first();
-	    if(!isset($login) or !is_object($login))
-	    {
-    		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
-	    }
-		$login->touch();
-    	Session::put('user_id', $login->user_id);
-    }
-    else
-    {
-		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
+    	return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
     }
 });
 

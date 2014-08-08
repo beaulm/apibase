@@ -17,20 +17,13 @@ class ApiController extends \BaseController {
 	 */
 	public function login()
 	{
-		if(Input::has('token'))
+		if(Input::has('token') and Login::checkToken(Input::get('token'), Request::getClientIp()))
 	    {
-	    	$login = Login::where('token', Input::get('token'))->where('ip_address', Request::getClientIp())->first();
-		    if(isset($login) and is_object($login))
-		    {
-		    	$login->touch();
-    			Session::put('user_id', $login->user_id);
-				return Response::json(array('token' => Input::get('token')));
-		    }
-			else
-			{
-				//If not, return an error
-				return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.login_failed')), 401); 
-			}
+			return Response::json(array('token' => Input::get('token')));
+	    }
+	    elseif(Input::has('token'))
+	    {
+			return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.login_failed')), 401);
 	    }
 
 		//Get the inputted username and password
