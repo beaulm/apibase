@@ -31,7 +31,6 @@ App::before(function($request)
 
 	Route::post('password/reset/{token}', array('uses' => 'HomeController@resetpassword', 'as' => 'reset'));
 
-	Route::any('api/v1/login', array('as' => 'apilogin', 'uses' => 'ApiController@login'));
 	Route::group(array('before' => 'apiauth'), function()
 	{   
 	    //Route::controller('api/v1', 'ApiController');

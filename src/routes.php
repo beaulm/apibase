@@ -11,3 +11,4 @@
 |
 */
 
+Route::any('api/v1/login', array('as' => 'apilogin', 'uses' => 'ApiController@login'));
