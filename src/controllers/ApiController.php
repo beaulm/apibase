@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Routing\Controllers\Controller;
 
 class ApiController extends \BaseController {
@@ -15,6 +17,21 @@ class ApiController extends \BaseController {
 	 */
 	public function login()
 	{
+		if(Input::has('token'))
+	    {
+	    	$login = Login::where('token', Input::get('token'))->where('ip_address', Request::getClientIp())->first();
+		    if(isset($login) and is_object($login))
+		    {
+		    	$login->touch();
+				return Response::json(array('token' => Input::get('token')));
+		    }
+			else
+			{
+				//If not, return an error
+				return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.login_failed')), 401); 
+			}
+	    }
+
 		//Get the inputted username and password
 		$user = array(
 			'email' => Input::get('username'),

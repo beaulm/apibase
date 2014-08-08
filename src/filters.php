@@ -31,10 +31,9 @@ App::before(function($request)
 
 	Route::post('password/reset/{token}', array('uses' => 'HomeController@resetpassword', 'as' => 'reset'));
 
+	Route::any('api/v1/login', array('as' => 'apilogin', 'uses' => 'ApiController@login'));
 	Route::group(array('before' => 'apiauth'), function()
-	{
-		Route::any('api/v1/login', array('as' => 'apilogin', 'uses' => 'ApiController@login'));
-	    
+	{   
 	    //Route::controller('api/v1', 'ApiController');
 		Route::any('api/v1/logout', array('uses' => 'ApiController@anyLogout', 'as' => 'anyLogout'));
 		Route::group(array('before' => 'makeSureModelExists'), function()
@@ -95,24 +94,15 @@ Route::filter('apiauth', function()
 {
     if(Input::has('token'))
     {
-        $login = Login::where('token', Input::get('token'))->where('ip_address', Request::getClientIp())->first();
-    }
-    if(isset($login) and is_object($login))
-    {
-    	$login->touch();
-    	Session::put('user_id', $login->user_id);
-
-    	if(Request::path() == 'api/v1/login')
-		{
-			return Response::json(array('token' => Input::get('token')));
-		}
+    	$login = Login::where('token', Input::get('token'))->where('ip_address', Request::getClientIp())->first();
+	    if(!isset($login) or !is_object($login))
+	    {
+    		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
+	    }
     }
     else
     {
-    	if(Request::path() != 'api/v1/login')
-		{
-			return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
-		}
+		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
     }
 });
 
