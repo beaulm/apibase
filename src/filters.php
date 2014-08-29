@@ -35,14 +35,14 @@ App::before(function($request)
 	{   
 	    //Route::controller('api/v1', 'ApiController');
 		Route::any('api/v1/logout', array('uses' => 'ApiController@anyLogout', 'as' => 'anyLogout'));
-		Route::group(array('before' => 'makeSureModelExists'), function()
+		/*Route::group(array('before' => 'makeSureModelExists'), function()
 		{
 			Route::get('api/v1/{modelName}', array('uses' => 'ApiController@getAll', 'as' => 'getAll'));
 			Route::get('api/v1/{modelName}/{id}', array('uses' => 'ApiController@getSpecific', 'as' => 'getSpecific'));
 			Route::post('api/v1/{modelName}', array('uses' => 'ApiController@createOne', 'as' => 'createOne'));
 			Route::put('api/v1/{modelName}/{id}', array('uses' => 'ApiController@editOne', 'as' => 'editOne'));
 			Route::delete('api/v1/{modelName}/{id}', array('uses' => 'ApiController@deleteOne', 'as' => 'deleteOne'));
-		});
+		});*/
 	});
 });
 
