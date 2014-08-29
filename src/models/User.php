@@ -88,7 +88,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function logins()
 	{
-		return $this->hasMany('Login');
+		return $this->hasMany('Thirdsteplabs\Apibase\Login');
 	}
 
 
