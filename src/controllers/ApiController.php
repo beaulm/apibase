@@ -87,8 +87,11 @@ class ApiController extends \BaseController {
 	public function anyLogout()
 	{
 		//Invalidate the passed token
-		$user = Login::where('token', Input::get('token'))->delete();
 		Auth::logout();
+		if(Input::has('token'))
+		{
+			$user = Login::where('token', Input::get('token'))->delete();
+		}
 		return Response::json(array('message' => Lang::get('apibase::thirdstep.response_message.logout_succeeded')));
 	}
 
