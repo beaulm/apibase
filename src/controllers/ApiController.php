@@ -17,7 +17,7 @@ class ApiController extends \BaseController {
 	 */
 	public function accessDenied()
 	{
-		return Response::json(array('code' => 401, 'message' => Lang::get('towrightnow.response_message.access_denied')), 401);
+		return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
 	}
 
 	/**

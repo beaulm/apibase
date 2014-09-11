@@ -15,7 +15,7 @@ return array(
 	'password_reminder_email_subject' => 'Password Reminder',
 
 	'response_message' => array(
-		'login_failed' => 'Login failed. You suck!',
+		'login_failed' => 'Login failed',
 		'logout_succeeded' => 'Logout successful',
 		'item_not_found' => 'The requested item does not exist',
 		'access_denied' => 'You do not have access to view this web page',
