@@ -91,10 +91,12 @@ Route::filter('basic.once', function()
 
 Route::filter('apiauth', function()
 {
-	if((!Input::has('token') and !Session::has('user_id')) or (Input::has('token') and !Login::checkToken(Input::get('token'), Request::getClientIp())))
-    {
-    	return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
-    }
+	if(Auth::check())
+        return;
+    if(Input::has('token') and Login::checkToken(Input::get('token'), Request::getClientIp()))
+        return;
+
+    return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
 });
 
 Route::filter('makeSureModelExists', function($route)
