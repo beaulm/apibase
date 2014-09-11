@@ -138,6 +138,9 @@ Route::filter('checkRequest', function($route, $request, $response)
 	//Get the passed in response
 	$newResponse['data'] = json_decode($response->getContent(), true);
 
+	//Add the current timestamp to the response
+	$newResponse['timestamp'] = \Carbon\Carbon::now()->toDateTimeString();
+
 	//Make sure the response is in JSON, otherwise don't modify it
 	if(json_last_error() != JSON_ERROR_NONE)
 	{
