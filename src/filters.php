@@ -91,7 +91,7 @@ Route::filter('basic.once', function()
 
 Route::filter('apiauth', function()
 {
-	if(!Input::has('token') or !Login::checkToken(Input::get('token'), Request::getClientIp()))
+	if((!Input::has('token') and !Session::has('user_id')) or (Input::has('token') and !Login::checkToken(Input::get('token'), Request::getClientIp())))
     {
     	return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.access_denied')), 401);
     }
@@ -116,6 +116,34 @@ Route::filter('makeSureModelExists', function($route)
 			return Response::json(array('code' => 401, 'message' => Lang::get('apibase::thirdstep.response_message.invalid_request')), 401);
 		}
 	}
+});
+
+Route::filter('checkRequest', function($route, $request, $response)
+{
+	//Make sure api calls aren't cached!
+	$response->headers->set('Cache-Control', 'no-cache');
+
+	//Check if a user_id exists in the session, or if it's a response error
+	if(!Session::has('user_id') or $response->getStatusCode() != 200)
+	{
+		return $response;
+	}
+	
+	//Find the current user
+    $userId = Session::get('user_id');
+	$user = User::find($userId);
+
+	//Get the passed in response
+	$newResponse['data'] = json_decode($response->getContent(), true);
+
+	//Make sure the response is in JSON, otherwise don't modify it
+	if(json_last_error() != JSON_ERROR_NONE)
+	{
+		return $response;
+	}
+
+	$response->setContent(json_encode($newResponse));
+	return $response;
 });
 
 /*

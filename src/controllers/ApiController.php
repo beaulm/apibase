@@ -11,6 +11,33 @@ use Illuminate\Routing\Controllers\Controller;
 
 class ApiController extends \BaseController {
 	/**
+	 * Tell the client that they shouldn't expect an answer or action
+	 *
+	 * @return JSON message
+	 */
+	public function accessDenied()
+	{
+		return Response::json(array('code' => 401, 'message' => Lang::get('towrightnow.response_message.access_denied')), 401);
+	}
+
+	/**
+	 * Check if a given token is valid
+	 *
+	 * @return JSON bool
+	 */
+	public function checkToken()
+	{
+		if(Input::has('token') and Login::checkToken(Input::get('token'), Request::getClientIp()))
+	    {
+	    	return Response::json(array('result'=>true));
+	    }
+	    else
+	    {
+	    	return Response::json(array('result'=>false));
+	    }
+	}
+	
+	/**
 	 * Handle Login attempts
 	 *
 	 * @return JSON array
