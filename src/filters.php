@@ -132,7 +132,7 @@ Route::filter('checkRequest', function($route, $request, $response)
 	}
 	
 	//Find the current user
-    $userId = Auth::id;
+    $userId = Auth::id();
 	$user = User::find($userId);
 
 	//Get the passed in response
