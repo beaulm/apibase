@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Login extends Eloquent {
@@ -64,7 +65,7 @@ class Login extends Eloquent {
 	    if(isset($login) and is_object($login))
 	    {
 	    	$login->touch();
-	    	Session::put('user_id', $login->user_id);
+	    	Auth::loginUsingId($login->user_id);
 	    	return true;
 	    }
 	    else

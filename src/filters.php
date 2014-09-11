@@ -126,13 +126,13 @@ Route::filter('checkRequest', function($route, $request, $response)
 	$response->headers->set('Cache-Control', 'no-cache');
 
 	//Check if a user_id exists in the session, or if it's a response error
-	if(!Session::has('user_id') or $response->getStatusCode() != 200)
+	if(!Auth::check() or $response->getStatusCode() != 200)
 	{
 		return $response;
 	}
 	
 	//Find the current user
-    $userId = Session::get('user_id');
+    $userId = Auth::id;
 	$user = User::find($userId);
 
 	//Get the passed in response

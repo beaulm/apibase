@@ -68,7 +68,7 @@ class ApiController extends \BaseController {
 			$login->setIp();
 			$login->createToken();
 			$login->save();
-			Session::put('user_id', $login->user_id);
+	    	Auth::loginUsingId($login->user_id);
 			return Response::json(array('token' => $login->getToken()));
 		}
 		else
