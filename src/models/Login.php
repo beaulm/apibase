@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Login extends Eloquent {
+class Login extends Apiable {
 
 	use SoftDeletingTrait;
 

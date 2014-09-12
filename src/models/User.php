@@ -9,7 +9,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends Apiable implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait, SoftDeletingTrait;
 
@@ -160,10 +160,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *  Validation rules
 	 */
 	public static $rules = array(
-		'name' => 'max:64',
-		'phone' => 'max:64',
 		'email' => 'email',
-		'role' => 'in:Frontend,Admin',
 	);
 
 }
