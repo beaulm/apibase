@@ -1,5 +1,7 @@
 <?php namespace Thirdsteplabs\Apibase;
 
+use Illuminate\Database\Eloquent\Model as Eloquent;
+
 class Apiable extends Eloquent {
 	public static function applyFilters($query)
 	{
