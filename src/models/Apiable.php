@@ -1,5 +1,6 @@
 <?php namespace Thirdsteplabs\Apibase;
 
+use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Apiable extends Eloquent {
@@ -11,6 +12,11 @@ class Apiable extends Eloquent {
 		}
 
 		$filters = json_decode(Input::get('filters'));
+
+		if(!property_exists($filters, strtolower(get_called_class())))
+		{
+			return $query;
+		}
 
 		foreach($filters->{strtolower(get_called_class())} as $filter)
 		{
