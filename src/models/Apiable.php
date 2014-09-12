@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use LaravelBook\Ardent\Ardent;
 
-class Apiable extends Eloquent {
+class Apiable extends Ardent {
 	public static function applyFilters($query)
 	{
 		if(!Input::has('filters'))
