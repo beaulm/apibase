@@ -13,7 +13,7 @@ class Apiable extends Ardent {
 		if(array_key_exists($key, $allRules))
 		{
 			$fieldRules = explode('|', $allRules[$key]);
-			if(in_array('decimal', $fieldRules))
+			if(in_array('decimal', $fieldRules) and !empty($value) and $value != '' and !is_null($value) and is_numeric($value))
 			{
 				return (float)$value;
 			}
