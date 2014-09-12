@@ -18,6 +18,11 @@ class Apiable extends Eloquent {
 			return $query;
 		}
 
+		if(!method_exists(get_called_class(),'getApiable'))
+		{
+			throw new \Exception('No static getApiable() method is defined for the '.get_called_class().' class.');
+		}
+
 		foreach($filters->{strtolower(get_called_class())} as $filter)
 		{
 			switch($filter->method) {
