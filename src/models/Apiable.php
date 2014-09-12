@@ -5,6 +5,22 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use LaravelBook\Ardent\Ardent;
 
 class Apiable extends Ardent {
+	//Makes sure any decimal attributes come back as floats and not strings
+	public function getAttribute($key)
+	{
+		$value = parent::getAttribute($key);
+		$allRules = self::$rules;
+		if(array_key_exists($key, $allRules))
+		{
+			$fieldRules = explode('|', $allRules[$key]);
+			if(in_array('decimal', $fieldRules))
+			{
+				return (float)$value;
+			}
+		}
+        return $value;
+    }
+
 	public static function applyFilters($query)
 	{
 		if(!Input::has('filters'))
