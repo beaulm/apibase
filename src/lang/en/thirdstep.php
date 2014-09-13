@@ -22,4 +22,16 @@ return array(
 		'invalid_request' => 'Sorry, that\'s not a valid request',
 	),
 
+	'filter_error' => array(
+		'invalid_json' => 'Invalid filter JSON',
+		'unknown_method' => 'Unknown filter method ":method"',
+		'missing_filter_method' => 'One or more filters are missing a filter method',
+		'missing_filter_params' => 'One or more filters are missing filter params',
+		'invalid_filter_params' => 'One or more filters have invalid filter params',
+		'too_few_filter_params' => 'One or more filters have too few filter params',
+		'unknown_filter' => 'Unknown filter ":filter" for ":class"',
+		'invalid_skip_param' => 'Invalid param for skip method',
+		'invalid_take_param' => 'Invalid param for take method',
+	),
+
 );

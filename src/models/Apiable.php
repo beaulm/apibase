@@ -2,27 +2,19 @@
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use LaravelBook\Ardent\Ardent;
 
-class Apiable extends Ardent {
-	//Makes sure any decimal attributes come back as floats and not strings
-	public function getAttribute($key)
-	{
-		$value = parent::getAttribute($key);
-		$allRules = self::$rules;
-		if(array_key_exists($key, $allRules))
-		{
-			$fieldRules = explode('|', $allRules[$key]);
-			if(in_array('decimal', $fieldRules) and !empty($value) and $value != '' and !is_null($value) and is_numeric($value))
-			{
-				return (float)$value;
-			}
-		}
-        return $value;
-    }
+class ApiableException extends \Exception {
+	public $descriptor;
 
-	public static function applyFilters($query)
-	{
+	public function __construct($descriptor, $params = array()) {
+		parent::__construct(\Lang::get($descriptor, $params));
+		$this->descriptor = $descriptor;
+	}
+}
+
+class Apiable extends Eloquent {
+	public static function applyFilters($query = false)
+	{		
 		if(!Input::has('filters'))
 		{
 			return $query;
@@ -30,46 +22,85 @@ class Apiable extends Ardent {
 
 		$filters = json_decode(Input::get('filters'));
 
-		if(!property_exists($filters, strtolower(get_called_class())))
+		$validMethods = array(
+			'where' => array(
+				'checkApiable' => true
+			),
+			'orWhere' => array(
+				'checkApiable' => true
+			),
+			'orderBy' => array(
+				'checkApiable' => true
+			),
+			'skip' => array(
+				'checkApiable' => false
+			),
+			'take' => array(
+				'checkApiable' => false
+			)
+		);
+		$checkApiable = array('where', 'orWhere', 'orderBy');
+
+		if(!$filters) {
+			throw new ApiableException('apibase::thirdstep.filter_error.invalid_json');
+		}
+
+		$className = strtolower(get_called_class());
+
+		if(!property_exists($filters, $className))
 		{
 			return $query;
 		}
 
-		if(!method_exists(get_called_class(),'getApiable'))
+		foreach($filters->{$className} as $filter)
 		{
-			throw new \Exception('No static getApiable() method is defined for the '.get_called_class().' class.');
-		}
+			if(!property_exists($filter, 'method')) {
+				throw new ApiableException('apibase::thirdstep.filter_error.missing_filter_method');
+			}
 
-		foreach($filters->{strtolower(get_called_class())} as $filter)
-		{
+			if(!property_exists($filter, 'params')) {
+				throw new ApiableException('apibase::thirdstep.filter_error.missing_filter_params');
+			}
+
+			if(!array_key_exists($filter->method, $validMethods)) {
+				throw new ApiableException('apibase::thirdstep.filter_error.unknown_method', array('method' => $filter->method));
+			}
+
+			if(!is_array($filter->params)) {
+				throw new ApiableException('apibase::thirdstep.filter_error.invalid_filter_params');
+			}
+
+			if(count($filter->params) < 1) {
+				throw new ApiableException('apibase::thirdstep.filter_error.too_few_filter_params');
+			}
+			
+			if($validMethods[$filter->method]['checkApiable']) {
+				if(!in_array($filter->params[0], forward_static_call(array(get_called_class(),'getApiable')))) {
+					throw new ApiableException(
+						'apibase::thirdstep.filter_error.unknown_filter',
+						array('filter' => $filter->params[0], 'class' => $className)
+					);
+				 }
+			}
 			switch($filter->method) {
-			    case 'where':
-			        if(in_array($filter->params[0], forward_static_call(array(get_called_class(),'getApiable'))))
-			        	$query = $query->where($filter->params[0], $filter->params[1], $filter->params[2]);
-			        break;
+				case 'skip':
+					if(!is_int($filter->params[0]))
+						throw new ApiableException('apibase::thirdstep.filter_error.invalid_skip_param');
+					break;
 
-			    case 'orWhere':
-			        if(in_array($filter->params[0], forward_static_call(array(get_called_class(),'getApiable'))))
-			        	$query = $query->orWhere($filter->params[0], $filter->params[1], $filter->params[2]);
-			        break;
+				case 'take':
+					if(!is_int($filter->params[0]))
+						throw new ApiableException('apibase::thirdstep.filter_error.invalid_take_param');
+					break;
+			}
 
-			    case 'orderBy':
-			        if(in_array($filter->params[0], forward_static_call(array(get_called_class(),'getApiable'))))
-			        	$query = $query->orderBy($filter->params[0], $filter->params[1]);
-			        break;
-
-			    case 'skip':
-			        if(is_int($filter->params[0]))
-			        	$query = $query->skip($filter->params[0]);
-			        break;
-
-			    case 'take':
-			        if(is_int($filter->params[0]))
-			        	$query = $query->take($filter->params[0]);
-			        break;
+			if($query) {
+				$query = call_user_func_array(array($query, $filter->method), $filter->params);
 			}
 		}
-
-		return $query;
+		if($query) {
+			return $query;
+		}
+		return true;
 	}
 }
