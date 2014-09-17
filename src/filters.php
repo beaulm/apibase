@@ -156,14 +156,15 @@ Route::filter('addHashes', function($route, $request, $response)
 	//Get the passed in response
 	$newResponse = json_decode($response->getContent(), true);
 
-	//Add the hash of the GPS settings
-	$newResponse['gpsConfig_hash'] = Gps::getCacheableHash();
+	//Get user set list of hashes to add
+	$hashesToAdd = Config::get('cacheable');
 
-	//Add the hash of vehicles for the current user
-	$newResponse['vehicles_hash'] = Vehicle::getCacheableHash();
-
-	//Add the hash of towing companies for the current user
-	$newResponse['towingCompanies_hash'] = User::getCacheableHash();
+	//Go over all the hashes
+	foreach($hashesToAdd as $key => $modelName)
+	{
+		//Add the hash to the response
+		$newResponse[$key] = {$modelName}::getCacheableHash();
+	}
 
 	$response->setContent(json_encode($newResponse));
 	return $response;
