@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use LaravelBook\Ardent\Ardent;
 
 class ApiableException extends \Exception {
 	public $descriptor;
@@ -12,7 +13,7 @@ class ApiableException extends \Exception {
 	}
 }
 
-class Apiable extends Eloquent {
+class Apiable extends Ardent {
 	public static function applyFilters($query = false)
 	{		
 		if(!Input::has('filters'))

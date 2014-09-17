@@ -9,7 +9,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class User extends Apiable implements UserInterface, RemindableInterface {
+class User extends Cacheable implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait, SoftDeletingTrait;
 

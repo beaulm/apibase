@@ -151,6 +151,24 @@ Route::filter('checkRequest', function($route, $request, $response)
 	return $response;
 });
 
+Route::filter('addHashes', function($route, $request, $response)
+{
+	//Get the passed in response
+	$newResponse = json_decode($response->getContent(), true);
+
+	//Add the hash of the GPS settings
+	$newResponse['gpsConfig_hash'] = Gps::getCacheableHash();
+
+	//Add the hash of vehicles for the current user
+	$newResponse['vehicles_hash'] = Vehicle::getCacheableHash();
+
+	//Add the hash of towing companies for the current user
+	$newResponse['towingCompanies_hash'] = User::getCacheableHash();
+
+	$response->setContent(json_encode($newResponse));
+	return $response;
+});
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter
