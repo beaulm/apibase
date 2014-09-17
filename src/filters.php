@@ -157,13 +157,13 @@ Route::filter('addHashes', function($route, $request, $response)
 	$newResponse = json_decode($response->getContent(), true);
 
 	//Get user set list of hashes to add
-	$hashesToAdd = Config::get('cacheable');
+	$hashesToAdd = Config::get('apibase::cacheable');
 
 	//Go over all the hashes
 	foreach($hashesToAdd as $key => $modelName)
 	{
 		//Add the hash to the response
-		$newResponse[$key] = {$modelName}::getCacheableHash();
+		$newResponse[$key] = call_user_func(array($modelName, 'getCacheableHash'));
 	}
 
 	$response->setContent(json_encode($newResponse));
