@@ -153,6 +153,12 @@ Route::filter('checkRequest', function($route, $request, $response)
 
 Route::filter('addHashes', function($route, $request, $response)
 {
+	//Check if it's a response error
+	if($response->getStatusCode() != 200)
+	{
+		return $response;
+	}
+
 	//Get the passed in response
 	$newResponse = json_decode($response->getContent(), true);
 
