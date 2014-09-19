@@ -13,7 +13,7 @@ class User extends Cacheable implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait, SoftDeletingTrait;
 
-	protected $fillable = array('name', 'phone', 'email', 'role');
+	protected $fillable = array('username', 'name', 'phone', 'email', 'role');
 	//protected $guarded = array('id', 'password');
 
 
@@ -160,6 +160,7 @@ class User extends Cacheable implements UserInterface, RemindableInterface {
 	 *  Validation rules
 	 */
 	public static $rules = array(
+		'username' => 'required',
 		'email' => 'email',
 	);
 
