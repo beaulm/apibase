@@ -8,8 +8,8 @@
 	<table>
 		<tbody>
 			<tr>
-				<td>{{ Form::label('email', 'Email') }}</td>
-				<td>{{ Form::text('email', Input::old('email')) }}</td>
+				<td>{{ Form::label('username', 'Username') }}</td>
+				<td>{{ Form::text('username', Input::old('username')) }}</td>
 			</tr>
 			<tr>
 				<td>{{ Form::label('password', 'Password') }}</td>

@@ -20,6 +20,10 @@
 				<td>{{ Form::text('phone', Input::old('phone')) }}</td>
 			</tr>
 			<tr>
+				<td>{{ Form::label('username', 'Username') }}</td>
+				<td>{{ Form::text('username', Input::old('username')) }}</td>
+			</tr>
+			<tr>
 				<td>{{ Form::label('password', 'Password') }}</td>
 				<td>{{ Form::password('password') }}</td>
 			</tr>
