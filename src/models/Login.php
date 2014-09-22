@@ -61,7 +61,8 @@ class Login extends Apiable {
 	 */
 	public static function checkToken($token, $ipAddress)
 	{
-		$login = Login::where('token', $token)->where('ip_address', $ipAddress)->first();
+		//$login = Login::where('token', $token)->where('ip_address', $ipAddress)->first();
+		$login = Login::where('token', $token)->first();
 	    if(isset($login) and is_object($login))
 	    {
 	    	$login->touch();
