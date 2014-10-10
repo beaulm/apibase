@@ -125,17 +125,17 @@ Route::filter('checkRequest', function($route, $request, $response)
 	//Make sure api calls aren't cached!
 	$response->headers->set('Cache-Control', 'no-cache');
 
-	//Check if a user_id exists in the session, or if it's a response error
-	if(!Auth::check() or $response->getStatusCode() != 200)
-	{
-		return $response;
-	}
-
 	return $response;
 });
 
 Route::filter('formatResponse', function($route, $request, $response)
 {
+	//Check if the response is an error
+	if($response->getStatusCode() != 200)
+	{
+		return $response;
+	}
+
 	//Get the passed in response
 	$newResponse['data'] = json_decode($response->getContent(), true);
 
