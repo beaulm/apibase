@@ -130,11 +130,12 @@ Route::filter('checkRequest', function($route, $request, $response)
 	{
 		return $response;
 	}
-	
-	//Find the current user
-    $userId = Auth::id();
-	$user = User::find($userId);
 
+	return $response;
+});
+
+Route::filter('formatResponse', function($route, $request, $response)
+{
 	//Get the passed in response
 	$newResponse['data'] = json_decode($response->getContent(), true);
 
