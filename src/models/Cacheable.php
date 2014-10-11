@@ -43,6 +43,8 @@ abstract class Cacheable extends Apiable {
 			//Get the cachable data
 			$cacheableData = static::getCacheableData($key, $options);
 
+			if($cacheableData === false) return false;
+
 			//Hash it
 			$cacheableHash = hash(Config::get('constants.default_hash_algorithm'), $cacheableData);
 
