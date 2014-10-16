@@ -170,7 +170,9 @@ Route::filter('addHashes', function($route, $request, $response)
 	foreach($hashesToAdd as $key => $modelName)
 	{
 		//Add the hash to the response
-		$newResponse['hashes'][$key] = call_user_func(array($modelName, 'getCacheableHash'));
+		$hash = call_user_func(array($modelName, 'getCacheableHash'));
+		if($hash)
+			$newResponse['hashes'][$key] = $hash;
 	}
 
 	$response->setContent(json_encode($newResponse));
