@@ -12,8 +12,8 @@ Login:
 - Response: `token`  
 _*All subsequent requests will require that token._  
 
-Example: `/api/v1/login?username=fake@fake.com&password=fake`  
-Ex Return: `{"token":"12d3ff"}`
+Example: `/api/v1/login?username=3333334444&password=fake`  
+Ex Return: `{"data":{"token":"12d3ff","user":{"id":2,"username":"3333334444","name":"Beau Lynn-Miller","phone":"3333334444","email":"beaulm@gmail.com","created_at":"2014-10-17 10:16:58","updated_at":"2014-10-17 10:17:00","deleted_at":null,"last_offered":null}},"timestamp":"2014-10-17 10:57:05","hashes":{"gpsConfig":"422962d8","vehicles":"86e45d7c","towingCompanies":"011500b9","states":"738ee935"}}`
 
 
 Get All:
