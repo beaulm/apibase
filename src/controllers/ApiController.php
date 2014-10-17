@@ -69,7 +69,7 @@ class ApiController extends \BaseController {
 			$login->createToken();
 			$login->save();
 	    	Auth::loginUsingId($login->user_id);
-			return Response::json(array('token' => $login->getToken()));
+			return Response::json(array('token' => $login->getToken(), 'user' => $user));
 		}
 		else
 		{
