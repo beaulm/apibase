@@ -46,7 +46,8 @@ class ApiController extends \BaseController {
 	{
 		if(Input::has('token') and Login::checkToken(Input::get('token'), Request::getClientIp()))
 	    {
-			return Response::json(array('token' => Input::get('token')));
+	    	$user = User::find(Auth::id());
+			return Response::json(array('token' => Input::get('token'), 'user' => $user));
 	    }
 	    elseif(Input::has('token'))
 	    {
