@@ -11,7 +11,5 @@
 |
 */
 
-Route::group(array('after' => array('addHashes')), function() {
-	Route::any('api/v1/login', array('as' => 'apilogin', 'uses' => 'ApiController@login'));
-	Route::any('api/v1/checkToken', array('uses' => 'ApiController@checkToken', 'as' => 'checkToken'));
-});
+Route::any('api/v1/login', array('as' => 'apilogin', 'uses' => 'ApiController@login'));
+Route::any('api/v1/checkToken', array('uses' => 'ApiController@checkToken', 'as' => 'checkToken'));
