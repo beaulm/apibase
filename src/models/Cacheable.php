@@ -25,6 +25,7 @@ abstract class Cacheable extends Apiable {
 		//If a user id was passed in the options, add it to the key name
 		if(isset($options['user_id']))
 		{
+			$options['user_id'] = $options['user_id']*1;
 			$cacheKey = $cacheKey.'-'.hash(Config::get('constants.default_hash_algorithm'), json_encode($options));
 		}
 
